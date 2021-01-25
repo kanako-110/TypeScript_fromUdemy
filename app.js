@@ -1,14 +1,12 @@
-function combine(input1, input2) {
-    var result;
-    if (typeof input1 === "number" && typeof input2 === "number") {
-        result = input1 + input2;
-    }
-    else {
-        result = input1.toString() + input2.toString();
-    }
-    return result;
+"use strict";
+let userInput;
+let userName;
+userInput = 5;
+userInput = "Mike";
+if (typeof userInput === "string") {
+    userName = userInput;
 }
-var combineAges = combine(20, 36);
-console.log(combineAges);
-var combineNames = combine("Anna", "Ken");
-console.log(combineNames);
+function generateError(message, code) {
+    throw { message: message, errorCode: code };
+}
+generateError("An error occurred!", 8000);
