@@ -1,14 +1,20 @@
-let userInput: unknown;
-let userName: string;
+class Department {
+	name: string;
 
-userInput = 5;
-userInput = "Mike";
-if (typeof userInput === "string") {
-	userName = userInput;
+	constructor(n: string) {
+		this.name = n;
+	}
+
+	describe(this: Department) {
+		console.log("Department:" + this.name);
+	}
 }
 
-function generateError(message: string, code: number) {
-	throw { message: message, errorCode: code };
-}
+const accounting = new Department("Accounting");
 
-generateError("An error occurred!", 8000);
+console.log(accounting);
+
+accounting.describe();
+
+const accountingCopy = { name:"a", describe: accounting.describe };
+accountingCopy.describe()
