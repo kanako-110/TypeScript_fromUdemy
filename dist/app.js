@@ -1,15 +1,74 @@
 "use strict";
 class Department {
-    constructor(n) {
-        this.name = n;
+    // initialize
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
+        // name: string;
+        this.employees = [];
     }
-    describe() {
-        console.log("Department:" + this.name);
+    addEmployee(employee) {
+        this.employees.push(employee);
+    }
+    printEmployeeInfo() {
+        console.log(this.employees.length);
+        console.log(this.employees);
     }
 }
-const accounting = new Department("Accounting");
-console.log(accounting);
+Department.fiscalYear = 2020;
+class ITDepartment extends Department {
+    constructor(id, admins) {
+        super(id, "IT"); //Departmentから引数持ってきている。(idとname)
+        this.admins = admins;
+    }
+    describe() {
+        console.log("IT Department - ID:" + this.id);
+    }
+}
+class AccountingDepartment extends Department {
+    constructor(id, reports) {
+        super(id, "Accounting");
+        this.reports = reports;
+        this.lastReport = reports[0];
+    }
+    get mostRecentReport() {
+        if (this.lastReport) {
+            return this.lastReport;
+        }
+        throw new Error("No Report Found");
+    }
+    set mostRecentReport(value) {
+        if (!value) {
+            throw new Error("plz pass ia a valid value");
+        }
+        this.addReport(value);
+    }
+    describe() {
+        console.log(`Accounting Department - ID:` + this.id);
+    }
+    addEmployee(name) {
+        if (name === "Max") {
+            return;
+        }
+        this.employees.push(name);
+    }
+    addReport(text) {
+        this.reports.push(text);
+        this.lastReport = text;
+    }
+    printReport() {
+        console.log(this.reports);
+    }
+}
+const accounting = new AccountingDepartment("d1", []);
+const IT = new ITDepartment("it1", []);
+accounting.mostRecentReport = "Year End Report"; //set呼び出し
+accounting.addReport("something went wrong...");
+accounting.addEmployee("Ito");
+console.log(accounting.mostRecentReport);
 accounting.describe();
-const accountingCopy = { name: "a", describe: accounting.describe };
-accountingCopy.describe();
+IT.describe();
+// accounting.printEmployeeInfo();
+// const accountingCopy = { name: "a", describe: accounting.describe };
+// accountingCopy.describe();
 //# sourceMappingURL=app.js.map
