@@ -1,90 +1,31 @@
-abstract class Department {
-	// name: string;
-	protected employees: string[] = [];
-	static fiscalYear = 2020;
+// [INTERFACE]
+// オブジェクトをdescribeするのに使える
+// typeと違いオブジェクト二のみ使える,クラスにinheritできる
 
-	// initialize
-	constructor(protected readonly id: string, public name: string) {}
 
-	abstract describe(this: Department): void;
+// 定義
+interface Greetable {
+	// initializeがinterfaceはできないため、name:string = "Mike"はできない
+	name: string;
+	age: number;
 
-	addEmployee(employee: string) {
-		this.employees.push(employee);
-	}
-
-	printEmployeeInfo() {
-		console.log(this.employees.length);
-		console.log(this.employees);
-	}
+	// functionの書き方 funcName(引数:type):type
+	greet(phrase: string): void;
 }
 
-class ITDepartment extends Department {
-	admins: string[];
+class Person implements Greetable { //implementsで引き継げる
+ name: string;
+ age = 30;
 
-	constructor(id: string, admins: string[]) {
-		super(id, "IT"); //Departmentから引数持ってきている。(idとname)
-		this.admins = admins;
-	}
-
-	describe() {
-		console.log("IT Department - ID:" + this.id);
-	}
+ constructor(n:string){
+   this.name= n
+ }
+ greet(phrase: string){
+   console.log(phrase + " " + this.name)
+ }
 }
 
-class AccountingDepartment extends Department {
-	private lastReport: string;
+let user1: Greetable; //上のpersonをtypeに指定
+user1 = new Person("Max")
 
-	get mostRecentReport() {
-		if (this.lastReport) {
-			return this.lastReport;
-		}
-		throw new Error("No Report Found");
-	}
-
-	set mostRecentReport(value: string) {
-		if (!value) {
-			throw new Error("plz pass ia a valid value");
-		}
-		this.addReport(value);
-	}
-
-	constructor(id: string, private reports: string[]) {
-		super(id, "Accounting");
-		this.lastReport = reports[0];
-	}
-
-	describe() {
-		console.log(`Accounting Department - ID:` + this.id);
-	}
-
-	addEmployee(name: string) {
-		if (name === "Max") {
-			return;
-		}
-		this.employees.push(name);
-	}
-
-	addReport(text: string) {
-		this.reports.push(text);
-		this.lastReport = text;
-	}
-
-	printReport() {
-		console.log(this.reports);
-	}
-}
-
-const accounting = new AccountingDepartment("d1", []);
-const IT = new ITDepartment("it1", []);
-
-accounting.mostRecentReport = "Year End Report"; //set呼び出し
-accounting.addReport("something went wrong...");
-accounting.addEmployee("Ito");
-
-console.log(accounting.mostRecentReport);
-accounting.describe();
-IT.describe();
-// accounting.printEmployeeInfo();
-
-// const accountingCopy = { name: "a", describe: accounting.describe };
-// accountingCopy.describe();
+user1.greet("Hi there, I am")
